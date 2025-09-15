@@ -1,4 +1,4 @@
-# hyper-efficient RL
+# hyper-efficient RL (wip)
 
 math reasoning in small language models using supervised fine-tuning and reinforcement learning
 

@@ -1,0 +1,35 @@
+# Supervised Fine-Tuning Configuration
+# Inherits from base_config.yaml and overrides specific settings for SFT
+
+# Override training settings for SFT
+training:
+  batch_size: 16
+  gradient_accumulation_steps: 2
+  learning_rate: 2e-5
+  num_epochs: 5
+  warmup_ratio: 0.1
+  weight_decay: 0.01
+  lr_scheduler_type: "cosine"
+
+# SFT specific settings
+sft:
+  max_seq_length: 512
+  packing: false
+  dataset_text_field: "text"
+  formatting_func: null  # Will be defined in code
+
+# Disable RL-specific features for SFT
+rl:
+  enabled: false
+
+curriculum:
+  enabled: false
+
+# Evaluation during SFT
+evaluation:
+  strategy: "steps"
+  eval_steps: 250
+  save_strategy: "steps"
+  save_steps: 250
+  load_best_model_at_end: true
+  metric_for_best_model: "eval_loss"
