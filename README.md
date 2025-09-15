@@ -1,6 +1,6 @@
-# Hyper-Efficient RL
+# hyper-efficient RL
 
-goal: improve math reasoning in small language models using supervised fine-tuning and reinforcement learning
+math reasoning in small language models using supervised fine-tuning and reinforcement learning
 
 ## model
 start from a base model with no instruction tuning (llama 3 8b base or qwen3 4b base)
