@@ -112,23 +112,70 @@ class ConfigManager:
     
     def load_config(self, config_path: str) -> Dict[str, Any]:
         """Load configuration from YAML file."""
-        pass
+        try:
+            with open(config_path, 'r') as f:
+                config = yaml.safe_load(f)
+            return config if config is not None else {}
+        except FileNotFoundError:
+            print(f"Config file not found: {config_path}")
+            return {}
+        except yaml.YAMLError as e:
+            print(f"Error parsing YAML file {config_path}: {e}")
+            return {}
     
     def merge_configs(self, base_config: Dict[str, Any], override_config: Dict[str, Any]) -> Dict[str, Any]:
         """Merge configuration dictionaries with override priority."""
-        pass
+        merged = base_config.copy()
+        
+        for key, value in override_config.items():
+            if key in merged and isinstance(merged[key], dict) and isinstance(value, dict):
+                merged[key] = self.merge_configs(merged[key], value)
+            else:
+                merged[key] = value
+        
+        return merged
     
     def load_training_config(self, training_type: str = "sft") -> Dict[str, Any]:
         """Load training configuration (SFT or RL)."""
-        pass
+        # Load base config
+        base_config = self.load_config(self.base_config_path)
+        
+        # Load specific training config
+        if training_type == "sft":
+            specific_config = self.load_config("config/sft_config.yaml")
+        elif training_type == "rl":
+            specific_config = self.load_config("config/rl_config.yaml")
+        else:
+            specific_config = {}
+        
+        # Merge configurations
+        return self.merge_configs(base_config, specific_config)
     
     def validate_config(self, config: Dict[str, Any]) -> bool:
         """Validate configuration for required fields and consistency."""
-        pass
+        required_sections = ["model", "training", "data"]
+        
+        for section in required_sections:
+            if section not in config:
+                print(f"Missing required config section: {section}")
+                return False
+        
+        # Validate model section
+        model_config = config.get("model", {})
+        if "name" not in model_config:
+            print("Missing model name in config")
+            return False
+        
+        return True
     
     def save_config(self, config: Dict[str, Any], output_path: str):
         """Save configuration to file."""
-        pass
+        try:
+            with open(output_path, 'w') as f:
+                yaml.dump(config, f, default_flow_style=False, indent=2)
+        except Exception as e:
+            print(f"Error saving config to {output_path}: {e}")
+            raise
     
     def get_model_config(self) -> ModelConfig:
         """Get model configuration as dataclass."""

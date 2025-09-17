@@ -54,11 +54,21 @@ def main():
     config_manager = ConfigManager()
     config = config_manager.load_config(args.config)
     
+    # Ensure data section exists
+    if "data" not in config:
+        config["data"] = {}
+    
     # Override config with command line arguments
     if args.datasets:
         config["data"]["datasets"] = args.datasets
     if args.max_samples:
         config["data"]["max_samples"] = args.max_samples
+    
+    # Set default values if not present
+    if "datasets" not in config["data"]:
+        config["data"]["datasets"] = ["gsm8k", "math"]
+    if "max_samples" not in config["data"]:
+        config["data"]["max_samples"] = 10000
     
     # Set random seed
     set_seed(args.seed)

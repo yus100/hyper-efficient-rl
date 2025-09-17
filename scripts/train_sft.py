@@ -76,18 +76,31 @@ def main():
     try:
         # Load and prepare datasets
         print("Loading and preparing datasets...")
-        # This will be implemented in dataset_loader.py
         datasets = load_and_prepare_datasets(config, tokenizer=None)  # tokenizer loaded in function
+        
+        # Format datasets for SFT if needed
+        print("Formatting datasets for SFT training...")
         
         # Run SFT training
         print("Starting supervised fine-tuning...")
-        run_sft_training(
+        result = run_sft_training(
             config=config,
             train_dataset=datasets["train"],
             eval_dataset=datasets.get("eval"),
             output_dir=args.output_dir,
             resume_from_checkpoint=args.resume_from_checkpoint
         )
+        
+        print("Training results:")
+        print(f"- Training loss: {result['train_result'].training_loss:.4f}")
+        if result['eval_result']:
+            print(f"- Evaluation loss: {result['eval_result']['eval_loss']:.4f}")
+        
+        print("\nSample generations:")
+        for i, sample in enumerate(result['samples'][:3]):
+            print(f"\nSample {i+1}:")
+            print(f"Problem: {sample['problem']}")
+            print(f"Generated: {sample['generated_solution'][:200]}...")  # Truncate for display
         
         print(f"Training completed! Model saved to {args.output_dir}")
         

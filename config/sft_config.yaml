@@ -3,13 +3,15 @@
 
 # Override training settings for SFT
 training:
-  batch_size: 16
-  gradient_accumulation_steps: 2
-  learning_rate: 2e-5
-  num_epochs: 5
+  batch_size: 4
+  gradient_accumulation_steps: 4
+  learning_rate: 5e-5
+  num_epochs: 3
   warmup_ratio: 0.1
   weight_decay: 0.01
   lr_scheduler_type: "cosine"
+  max_grad_norm: 1.0
+  dataloader_num_workers: 4
 
 # SFT specific settings
 sft:

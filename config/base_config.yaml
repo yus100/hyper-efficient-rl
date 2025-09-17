@@ -3,15 +3,17 @@
 
 # Model configuration
 model:
-  name: "microsoft/DialoGPT-medium"  # Placeholder - will use 7B model
-  max_length: 512
+  name: "Qwen/Qwen2.5-4B"
+  max_length: 2048
   temperature: 0.7
   use_peft: true
   lora_config:
-    r: 16
-    lora_alpha: 32
-    target_modules: ["q_proj", "v_proj"]
+    r: 64
+    lora_alpha: 128
+    target_modules: ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
     lora_dropout: 0.1
+    bias: "none"
+    task_type: "CAUSAL_LM"
 
 # Training configuration
 training:
