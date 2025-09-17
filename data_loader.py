@@ -6,19 +6,11 @@ import os
 def load_gsm8k_data():
     """Load GSM8K dataset and format for instruction tuning."""
     
-    # Load from existing processed data if available
-    train_path = "data/processed/gsm8k_train"
-    test_path = "data/processed/gsm8k_test"
-    
-    if os.path.exists(train_path) and os.path.exists(test_path):
-        print("Loading existing processed GSM8K data...")
-        train_dataset = load_dataset("arrow", data_files=f"{train_path}/data-00000-of-00001.arrow", split="train")
-        test_dataset = load_dataset("arrow", data_files=f"{test_path}/data-00000-of-00001.arrow", split="train")
-    else:
-        print("Loading GSM8K from HuggingFace...")
-        dataset = load_dataset("gsm8k", "main")
-        train_dataset = dataset["train"]
-        test_dataset = dataset["test"]
+    # Always load from HuggingFace to avoid compatibility issues with processed data
+    print("Loading GSM8K from HuggingFace...")
+    dataset = load_dataset("openai/gsm8k", "main")
+    train_dataset = dataset["train"]
+    test_dataset = dataset["test"]
     
     def format_prompt(example):
         """Format GSM8K examples for instruction tuning."""
