@@ -18,6 +18,6 @@ metrics: accuracy, token count, latency
 ## refs
 - transformers + trl: [huggingface trl library](https://arxiv.org/abs/2306.09683)  
 - rl on small models: [openrlhf experiments](https://arxiv.org/abs/2402.01306)  
-- length-aware optimization: [rewarding shorter reasoning chains](https://arxiv.org/abs/2402.10896)  
+- length-aware optimization: [rewarding shorter reasoning chains](https://arxiv.org/abs/2505.12284)  
 - curriculum learning for rl: [speed curriculum](https://arxiv.org/abs/2407.01082)  
 - math reasoning datasets: [gsm8k](https://arxiv.org/abs/2110.14168), [math](https://arxiv.org/abs/2103.03874)
